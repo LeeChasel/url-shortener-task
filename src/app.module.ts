@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule, PrismaModule } from './libs';
 
 @Module({
@@ -6,6 +7,9 @@ import { ConfigModule, PrismaModule } from './libs';
     // libs
     ConfigModule,
     PrismaModule,
+
+    // features
+    AuthModule,
   ],
   controllers: [],
   providers: [],

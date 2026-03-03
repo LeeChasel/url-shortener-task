@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ConfigService } from './libs';
 
@@ -13,6 +13,14 @@ async function bootstrap() {
     defaultVersion: '1',
     prefix: 'v',
   });
+
+  // validation pipe for DTO
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
   const configService = app.get(ConfigService);
   await app.listen(configService.get('APP_PORT'));
