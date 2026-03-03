@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, PrismaModule } from './libs';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { ConfigModule, PrismaModule } from './libs';
 
     // features
     AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

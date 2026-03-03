@@ -1,22 +1,21 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import type { JWT_Payload } from 'src/auth/types';
+import { UserService } from './user.service';
 
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly userService: UserService) {}
 
-  @Post('register')
-  register(@Body() data: RegisterDto) {
-    const { email, password } = data;
-    return this.authService.register(email, password);
-  }
+  @Get('me')
+  async getUserInformation(@CurrentUser() user: JWT_Payload) {
+    const userInfo = await this.userService.getUserById(user.sub);
 
-  @Post('login')
-  @HttpCode(HttpStatus.OK)
-  login(@Body() data: LoginDto) {
-    const { email, password } = data;
-    return this.authService.login(email, password);
+    return {
+      registerAt: userInfo.createdAt,
+      lastLoginAt: userInfo.lastLoginAt,
+    };
   }
 }

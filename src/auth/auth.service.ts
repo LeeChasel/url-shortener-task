@@ -53,6 +53,14 @@ export class AuthService {
     const payload: JWT_Payload = { sub: user.id, email: user.email };
     const accessToken = await this.jwt.signAsync(payload);
 
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        lastLoginAt: new Date(),
+      },
+    });
     return { accessToken };
   }
 }

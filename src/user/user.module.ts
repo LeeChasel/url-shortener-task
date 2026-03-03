@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import type { StringValue } from 'ms';
-import { ConfigService } from '../libs';
+import { ConfigService } from 'src/libs';
 import { UserController } from './user.controller';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @Module({
   imports: [
@@ -16,6 +16,6 @@ import { AuthService } from './auth.service';
     }),
   ],
   controllers: [UserController],
-  providers: [AuthService],
+  providers: [UserService],
 })
-export class AuthModule {}
+export class UserModule {}
