@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from './libs';
+import { ConfigModule, PrismaModule } from './libs';
 
 @Module({
   imports: [
     // libs
     ConfigModule,
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
