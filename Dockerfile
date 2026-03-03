@@ -16,7 +16,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN pnpm prisma generate
+# prisma generate only reads the schema, not the DB — dummy URL satisfies env() validation
+RUN DATABASE_URL="postgresql://x:x@x:5432/x" pnpm prisma generate
 RUN pnpm build
 
 # Prune to production deps only
@@ -35,6 +36,7 @@ COPY --from=builder --chown=appuser:appgroup /app/dist ./dist
 COPY --from=builder --chown=appuser:appgroup /app/node_modules ./node_modules
 COPY --from=builder --chown=appuser:appgroup /app/generated ./generated
 COPY --from=builder --chown=appuser:appgroup /app/prisma ./prisma
+COPY --from=builder --chown=appuser:appgroup /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder --chown=appuser:appgroup /app/package.json ./package.json
 
 USER appuser
