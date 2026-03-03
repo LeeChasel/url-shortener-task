@@ -10,12 +10,19 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('me')
-  async getUserInformation(@CurrentUser() user: JWT_Payload) {
+  async getMe(@CurrentUser() user: JWT_Payload) {
     const userInfo = await this.userService.getUserById(user.sub);
-
     return {
-      registerAt: userInfo.createdAt,
+      id: userInfo.id,
+      email: userInfo.email,
+      registeredAt: userInfo.createdAt,
       lastLoginAt: userInfo.lastLoginAt,
+      totalLinks: userInfo._count.shortLinks,
     };
+  }
+
+  @Get('links')
+  getUserLinks(@CurrentUser() user: JWT_Payload) {
+    return this.userService.getUserLinks(user.sub);
   }
 }
