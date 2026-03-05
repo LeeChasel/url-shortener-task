@@ -18,6 +18,8 @@ import { UserModule } from './user/user.module';
     UserModule,
     UrlModule,
     HealthModule,
+
+    // Must register redirect route at the end
     RedirectModule,
   ],
   controllers: [],

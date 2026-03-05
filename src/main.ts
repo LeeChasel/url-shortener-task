@@ -1,4 +1,4 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from './libs';
@@ -6,9 +6,12 @@ import { ConfigService } from './libs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Global prefix — exclude root-level routes
+  // Global prefix — exclude root-level routes (only GET, so others still get prefix)
   app.setGlobalPrefix('api', {
-    exclude: ['health', ':shortCode'],
+    exclude: [
+      { path: 'health', method: RequestMethod.GET },
+      { path: ':shortCode', method: RequestMethod.GET },
+    ],
   });
 
   app.enableVersioning({
