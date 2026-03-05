@@ -20,7 +20,7 @@ services:
       redis:
         condition: service_healthy
     command: >
-      sh -c "node_modules/.bin/prisma migrate deploy && node dist/main"
+      sh -c "node_modules/.bin/prisma migrate deploy && node dist/src/main"
 
   db:
     image: postgres:18
