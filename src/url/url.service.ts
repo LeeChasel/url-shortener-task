@@ -46,7 +46,6 @@ export class UrlService {
         expiresAt: link.expiresAt.toISOString(),
         maxClicks: link.maxClicks,
       }),
-      'EX',
       ttlSeconds,
     );
 
